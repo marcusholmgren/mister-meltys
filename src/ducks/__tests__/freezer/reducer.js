@@ -1,0 +1,55 @@
+import {reducer, actions} from '../../freezer'
+import * as FLAVORS from '../../../constants/flavors'
+
+describe('Freezer reducer', function () {
+    it('should store the temperature in the state', function () {
+        const newState = reducer(undefined, actions.updateTemperature(-5));
+        expect(newState.temperature).toEqual(-5);
+    });
+
+    it('should store the product in the state', function () {
+        const newState = reducer(undefined, actions.addProductToFreezer(FLAVORS.VANILLA, 10));
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(10);
+    });
+
+    it('should add the scoops to a flavor if it already exists', function () {
+        const oldState = {
+            flavors: {
+                [FLAVORS.VANILLA]: 5
+            }
+        };
+        const newState = reducer(oldState, actions.addProductToFreezer(FLAVORS.VANILLA, 10));
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(15);
+    });
+
+    it('should make sure not to overflow the freezer', function () {
+        const oldState = {
+            flavors: {
+                [FLAVORS.VANILLA]: 55
+            }
+        };
+        const newState = reducer(oldState, actions.addProductToFreezer(FLAVORS.VANILLA, 10));
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(60);
+    });
+
+
+    it('should remove scoops from the freezer', function () {
+        const oldState = {
+            flavors: {
+                [FLAVORS.VANILLA]: 50
+            }
+        };
+        const newState = reducer(oldState, actions.removeScoop(FLAVORS.VANILLA));
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(49);
+    });
+
+    it('should not remove scoops and go below zero', function () {
+        const oldState = {
+            flavors: {
+                [FLAVORS.VANILLA]: 0
+            }
+        };
+        const newState = reducer(oldState, actions.removeScoop(FLAVORS.VANILLA));
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(0);
+    });
+});

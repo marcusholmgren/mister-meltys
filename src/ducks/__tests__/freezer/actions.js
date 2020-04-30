@@ -1,9 +1,10 @@
-import {actions, types} from '../../freezer';
+import {actions} from '../../freezer';
+import * as FREEZER from "../../../constants/freezer";
 
 describe('updateTemperature()', function () {
     it('should contain the right action type', function () {
         const action = actions.updateTemperature();
-        expect(action.type).toEqual(types.UPDATE_TEMPERATURE);
+        expect(action.type).toEqual(FREEZER.UPDATE_TEMPERATURE);
     });
 
     it('should contain the temperature in the payload', function () {
@@ -16,7 +17,7 @@ describe('updateTemperature()', function () {
 describe('addProductToFreezer()', function () {
     it('should contain the right action type', function () {
         const action = actions.addProductToFreezer();
-        expect(action.type).toEqual(types.ADD_PRODUCT_TO_FREEZER);
+        expect(action.type).toEqual(FREEZER.ADD_PRODUCT_TO_FREEZER);
     });
 
     it('should have the name in the action payload', function () {
@@ -34,7 +35,7 @@ describe('addProductToFreezer()', function () {
 describe('removeScoop()', function () {
     it('should contain the right action type', function () {
         const action = actions.removeScoop('BANANA');
-        expect(action.type).toEqual(types.REMOVE_SCOOP);
+        expect(action.type).toEqual(FREEZER.REMOVE_SCOOP);
     });
 
 

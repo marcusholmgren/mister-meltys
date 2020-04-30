@@ -61,4 +61,6 @@ typings/
 .next
 
 # JetBrains IntelliJ IDEA
+.idea/
+
 .DS_Store

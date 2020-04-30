@@ -1,11 +1,5 @@
-import {ADD_PRODUCT_TO_FREEZER, UPDATE_TEMPERATURE} from "../constants/freezer";
+import * as FREEZER from "../constants/freezer";
 import * as FLAVORS from '../constants/flavors';
-
-export const types = {
-    UPDATE_TEMPERATURE: 'UPDATE_TEMPERATURE',
-    ADD_PRODUCT_TO_FREEZER: 'ADD_PRODUCT_TO_FREEZER',
-    REMOVE_SCOOP: 'REMOVE_SCOOP'
-};
 
 
 const DEFAULT_STATE = {
@@ -18,12 +12,12 @@ const DEFAULT_STATE = {
 
 export function reducer(state = DEFAULT_STATE, action) {
     switch (action.type) {
-        case types.UPDATE_TEMPERATURE:
+        case FREEZER.UPDATE_TEMPERATURE:
             return {
                 ...state,
                 temperature: action.payload
             };
-        case types.ADD_PRODUCT_TO_FREEZER:
+        case FREEZER.ADD_PRODUCT_TO_FREEZER:
             const freezer_limit = 60;
             const amount = (state.flavors[action.payload.name] || 0) + action.payload.amount;
             return {
@@ -33,7 +27,7 @@ export function reducer(state = DEFAULT_STATE, action) {
                     [action.payload.name]: Math.min(amount, freezer_limit)
                 }
             };
-        case types.REMOVE_SCOOP:
+        case FREEZER.REMOVE_SCOOP:
             const freezer_empty = 0;
             const amount_left = state.flavors[action.payload]-1;
             return {
@@ -52,13 +46,13 @@ export function reducer(state = DEFAULT_STATE, action) {
 export const actions = {
     updateTemperature(temperature) {
         return {
-            type: types.UPDATE_TEMPERATURE,
+            type: FREEZER.UPDATE_TEMPERATURE,
             payload: temperature
         };
     },
     addProductToFreezer(name, amount) {
         return {
-            type: types.ADD_PRODUCT_TO_FREEZER,
+            type: FREEZER.ADD_PRODUCT_TO_FREEZER,
             payload: {
                 name: name,
                 amount: amount
@@ -67,7 +61,7 @@ export const actions = {
     },
     removeScoop(flavorName) {
         return {
-            type: types.REMOVE_SCOOP,
+            type: FREEZER.REMOVE_SCOOP,
             payload: flavorName
         }
     }

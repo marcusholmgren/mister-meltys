@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/mister-meltys/static/css/main.67a42a2d.chunk.css",
+    "main.js": "/mister-meltys/static/js/main.3c85fffc.chunk.js",
+    "main.js.map": "/mister-meltys/static/js/main.3c85fffc.chunk.js.map",
+    "runtime-main.js": "/mister-meltys/static/js/runtime-main.23da5201.js",
+    "runtime-main.js.map": "/mister-meltys/static/js/runtime-main.23da5201.js.map",
+    "static/js/2.2c7de748.chunk.js": "/mister-meltys/static/js/2.2c7de748.chunk.js",
+    "static/js/2.2c7de748.chunk.js.map": "/mister-meltys/static/js/2.2c7de748.chunk.js.map",
+    "index.html": "/mister-meltys/index.html",
+    "static/css/main.67a42a2d.chunk.css.map": "/mister-meltys/static/css/main.67a42a2d.chunk.css.map",
+    "static/js/2.2c7de748.chunk.js.LICENSE.txt": "/mister-meltys/static/js/2.2c7de748.chunk.js.LICENSE.txt",
+    "static/media/OrderTicket.css": "/mister-meltys/static/media/order-ticket-edge.3e5a3bb8.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.23da5201.js",
+    "static/js/2.2c7de748.chunk.js",
+    "static/css/main.67a42a2d.chunk.css",
+    "static/js/main.3c85fffc.chunk.js"
+  ]
+}

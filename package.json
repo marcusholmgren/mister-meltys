@@ -2,6 +2,7 @@
   "name": "manning-redux",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://marcusholmgren.github.io/mister-meltys",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^17.0.1",

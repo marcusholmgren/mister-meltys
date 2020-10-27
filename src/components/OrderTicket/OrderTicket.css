@@ -20,7 +20,7 @@
   right: 0;
   bottom: -9px;
   height: 8px;
-  background-image: url('/order-ticket-edge.svg');
+  background-image: url('./order-ticket-edge.svg');
   background-repeat: repeat-x;
 }
 

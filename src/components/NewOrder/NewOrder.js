@@ -76,6 +76,7 @@ class NewOrder extends Component {
                                 name="name"
                                 value={this.state.customerName}
                                 onChange={e => this.setState({customerName: e.target.value})}
+                                autoComplete="off"
                             />
                         </Column>
                         <Column>

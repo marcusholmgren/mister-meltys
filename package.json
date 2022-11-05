@@ -4,24 +4,24 @@
   "private": true,
   "homepage": "https://marcusholmgren.github.io/mister-meltys",
   "dependencies": {
-    "classnames": "^2.2.6",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-redux": "^7.2.2",
-    "react-scripts": "4.0.0",
-    "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
+    "classnames": "^2.3.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
     "store.js": "^1.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
     "jest-fetch-mock": "^3.0.3",
-    "redux-devtools-extension": "^2.13.5"
+    "@vitejs/plugin-react": "^2.2.0",
+    "redux-devtools-extension": "^2.13.9",
+     "vite": "^3.2.2"
   },
   "browserslist": {
     "production": [

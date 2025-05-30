@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Mr Melty's",
+  "name": "Mister Melty's Ice Cream Shop",
+  "description": "A delightful ice cream shop experience with Redux state management.",
   "icons": [
     {
       "src": "favicon.ico",

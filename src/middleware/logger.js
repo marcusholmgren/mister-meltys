@@ -14,7 +14,7 @@ export default function(store) {
 
 /** ES6 lambda function */
 export default (store) => (next) => (action) => {
-    console.log('Next:', next);
+    // console.log('Next:', next);
     console.log('Action:', action);
     next(action);
     console.log('State:', store.getState());

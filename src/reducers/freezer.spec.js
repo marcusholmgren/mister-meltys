@@ -1,6 +1,7 @@
 import reducer from './freezer'
 import * as FLAVORS from '../constants/flavors'
 import {updateTemperature, addProductToFreezer} from '../actions/freezer'
+import { describe, it, expect } from 'vitest';
 
 describe('Freezer reducer', function () {
     it('should store the temperature in the state', function () {

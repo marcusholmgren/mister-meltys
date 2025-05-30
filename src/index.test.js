@@ -1,3 +1,5 @@
+import { describe, it, expect, vi } from 'vitest';
+
 describe('Our first tests', function() {
     it('should work', function () {
         expect(true).toEqual(true);
@@ -12,12 +14,12 @@ describe('Our first tests', function() {
     })
 
     it('should support spies', function() {
-        const spy = jest.fn();
+        const spy = vi.fn();
         spy()
         spy()
         expect(spy).toHaveBeenCalledTimes(2)
         spy('foo')
-        expect(spy).toBeCalledWith('foo')
+        expect(spy).toHaveBeenCalledWith('foo')
     })
 
     it('should be a string', function() {

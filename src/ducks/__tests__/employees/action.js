@@ -36,7 +36,7 @@ describe('fetchEmployees()', function () {
 
 
     it('should dispatch the FAILURE action when the data is unavailable', function () {
-        fetch.mockRejectOnce('404 No employees.json data');
+        fetch.mockRejectOnce(new Error('404 No employees.json data'));
         const spy = jest.fn();
         const thunk = actions.fetchEmployees();
         thunk(spy).then(function () {

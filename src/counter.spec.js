@@ -1,3 +1,4 @@
+import { describe, it, expect, vi } from 'vitest';
 import { reducer, increaseCount, store} from './counter'
 
 describe('Counter', function() {
@@ -34,7 +35,7 @@ describe('Sheep counting store', function () {
     });
 
     it('should call the subscribers when the store data changes', function () {
-        const listener = jest.fn();
+        const listener = vi.fn();
         store.subscribe(listener);
         const action = increaseCount();
         store.dispatch(action);
@@ -42,7 +43,7 @@ describe('Sheep counting store', function () {
     });
 
     it('should not call the subscriber when unsubscribed', function () {
-        const listener = jest.fn();
+        const listener = vi.fn();
         const unsubscribe = store.subscribe(listener);
         const action = increaseCount();
         unsubscribe();

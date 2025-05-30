@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import {updateTemperature, addProductToFreezer} from "./freezer";
 import {UPDATE_TEMPERATURE, ADD_PRODUCT_TO_FREEZER} from '../constants/freezer';
 

@@ -6,6 +6,7 @@ import OrderTicket from '../OrderTicket/OrderTicket';
 
 class OrderOverview extends Component {
     handleChangeStatus(index, status) {
+        // console.log(`Changing status of order at index ${index} to ${status}`);
         switch (status) {
             case 'fulfilled':
                 this.props.fulfillOrder(index);
@@ -14,6 +15,7 @@ class OrderOverview extends Component {
                 this.props.payForOrder(index);
                 break;
             default:
+                console.warn(`Unknown status change: ${status}`);
                 break;
         }
     }

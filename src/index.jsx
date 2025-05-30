@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { Provider } from 'react-redux';
 
 import App from './components/App/App';
 
@@ -13,13 +13,10 @@ setTimeout(() => {
     store.dispatch(actions.addProductToFreezer(FLAVORS.CHOCOLATE, 15));
 }, 1500);
 
-ReactDOM.render(
-    (
-        <React.StrictMode>
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
         <Provider store={store}>
-            <App/>
+            <App />
         </Provider>
-        </React.StrictMode>
-    ),
-  document.getElementById('root')
-);
+    </StrictMode>,
+)

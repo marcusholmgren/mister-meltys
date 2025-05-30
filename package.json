@@ -6,11 +6,11 @@
   "homepage": "https://marcusholmgren.github.io/mister-meltys",
   "dependencies": {
     "classnames": "^2.3.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-redux": "^8.0.5",
-    "redux": "^4.2.0",
-    "redux-thunk": "^2.4.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-redux": "^8.1.3",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "store.js": "^1.0.4",
     "vitest": "^3.1.4"
   },

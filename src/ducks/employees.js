@@ -51,7 +51,6 @@ export const actions = {
                     payload: emp
                 }))
                 .catch(err => {
-                    debugger;
                     return dispatch({
                     type: types.FETCH_EMPLOYEES_FAILURE,
                     payload: err.message

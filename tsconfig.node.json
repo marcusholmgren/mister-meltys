@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true // Allow JS files like eslint.config.js if it's JS
+  },
+  "include": ["vite.config.ts", "eslint.config.js"] // Add eslint.config.js
+}

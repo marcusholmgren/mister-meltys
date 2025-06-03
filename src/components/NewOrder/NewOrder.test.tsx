@@ -43,7 +43,7 @@ describe('NewOrder Component without jest-dom', () => {
             [flavor2]: 0, // Out of stock
             [flavor3]: 10,
         };
-        render(<NewOrder placeOrder={mockPlaceOrder} flavorStock={flavorStock} />);
+        render(<NewOrder placeOrder={mockPlaceOrder} flavors={flavorStock} />);
 
         // Check that in-stock flavors are present
         expect(screen.getByText(flavor1)).not.toBeNull();
@@ -57,7 +57,7 @@ describe('NewOrder Component without jest-dom', () => {
         const dynamicFlavorStock: { [key: string]: number } = {};
         currentFlavorKeys.forEach(fKey => dynamicFlavorStock[fKey] = 5);
 
-        render(<NewOrder placeOrder={mockPlaceOrder} flavorStock={dynamicFlavorStock} />);
+        render(<NewOrder placeOrder={mockPlaceOrder} flavors={dynamicFlavorStock} />);
 
         currentFlavorKeys.forEach(fKey => {
             expect(screen.getByText(fKey)).not.toBeNull();
@@ -68,7 +68,7 @@ describe('NewOrder Component without jest-dom', () => {
         const dynamicFlavorStock: { [key: string]: number } = {};
         currentFlavorKeys.forEach(fKey => dynamicFlavorStock[fKey] = 0);
 
-        render(<NewOrder placeOrder={mockPlaceOrder} flavorStock={dynamicFlavorStock} />);
+        render(<NewOrder placeOrder={mockPlaceOrder} flavors={dynamicFlavorStock} />);
 
         currentFlavorKeys.forEach(fKey => {
             expect(screen.queryByText(fKey)).toBeNull();
@@ -76,7 +76,7 @@ describe('NewOrder Component without jest-dom', () => {
     });
 
     it('should display no flavors if flavorStock is empty', () => {
-        render(<NewOrder placeOrder={mockPlaceOrder} flavorStock={{}} />);
+        render(<NewOrder placeOrder={mockPlaceOrder} flavors={{}} />);
 
         currentFlavorKeys.forEach(fKey => {
             expect(screen.queryByText(fKey)).toBeNull();
@@ -91,7 +91,7 @@ describe('NewOrder Component without jest-dom', () => {
         }
 
 
-        render(<NewOrder placeOrder={mockPlaceOrder} flavorStock={flavorStock} />);
+        render(<NewOrder placeOrder={mockPlaceOrder} flavors={flavorStock} />);
 
         // Only proceed if flavor1 was supposed to be rendered
         if (flavorStock[flavor1] > 0) {

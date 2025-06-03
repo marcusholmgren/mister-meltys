@@ -15,6 +15,9 @@ const DEFAULT_STATE: FreezerState = {
     }
 };
 
+// Selectors
+export const getFlavorStock = (state: FreezerState): { [flavorName: string]: number } => state.flavors;
+
 // Action Interfaces
 export interface UpdateTemperatureAction extends Action {
   type: typeof FREEZER.UPDATE_TEMPERATURE; // Use 'as const' in constants file for stricter typing if possible
@@ -31,10 +34,16 @@ export interface RemoveScoopAction extends Action {
   payload: string; // flavorName
 }
 
+export interface DeductStockAction extends Action {
+  type: typeof FREEZER.DEDUCT_STOCK;
+  payload: { flavor: string; quantity: number };
+}
+
 export type FreezerActionTypes =
   | UpdateTemperatureAction
   | AddProductToFreezerAction
-  | RemoveScoopAction;
+  | RemoveScoopAction
+  | DeductStockAction;
 
 export function reducer(state: FreezerState = DEFAULT_STATE, action: FreezerActionTypes | Action): FreezerState {
     switch (action.type) {
@@ -69,6 +78,18 @@ export function reducer(state: FreezerState = DEFAULT_STATE, action: FreezerActi
                 }
             };
         }
+        case FREEZER.DEDUCT_STOCK: {
+            const deductAction = action as DeductStockAction;
+            const currentStock = state.flavors[deductAction.payload.flavor] || 0;
+            const newStock = Math.max(0, currentStock - deductAction.payload.quantity);
+            return {
+                ...state,
+                flavors: {
+                    ...state.flavors,
+                    [deductAction.payload.flavor]: newStock
+                }
+            };
+        }
         default:
             return state;
     }
@@ -95,5 +116,14 @@ export const actions = {
             type: FREEZER.REMOVE_SCOOP,
             payload: flavorName
         }
+    },
+    deductStock(flavor: string, quantity: number): DeductStockAction {
+        return {
+            type: FREEZER.DEDUCT_STOCK,
+            payload: {
+                flavor,
+                quantity
+            }
+        };
     }
 };

@@ -1,4 +1,20 @@
-import { Action } from 'redux';
+import { Action, Dispatch } from 'redux';
+import { actions as freezerActions } from './freezer'; // Corrected import path
+import { FreezerActionTypes } from './freezer'; // Assuming this exports DeductStockAction or similar
+
+// Placeholder for RootState - this would typically be defined in a central store configuration
+// and import OrdersState and FreezerState etc.
+export interface RootState {
+  orders: OrdersState;
+  // In a real app, you'd also have freezer: FreezerState;
+  // For now, we only need orders for getState() in the thunk.
+}
+
+// Placeholder for AppThunk type
+export type AppThunk<ReturnType = void> = (
+  dispatch: Dispatch<OrderActionTypes | FreezerActionTypes>, // Include FreezerActionTypes
+  getState: () => RootState
+) => ReturnType;
 
 export const types = {
     PLACE_ORDER: 'PLACE_ORDER' as const,
@@ -55,6 +71,9 @@ export type OrderActionTypes =
   | PayForOrderAction
   | CancelOrderAction;
 
+// Note: FreezerActionTypes are not directly handled by *this* reducer,
+// but the AppThunk needs to be able to dispatch them.
+
 export function reducer(state: OrdersState = DEFAULT_STATE, action: OrderActionTypes | Action): OrdersState {
     switch (action.type) {
         case types.PLACE_ORDER:
@@ -108,10 +127,27 @@ export const actions = {
             payload: {customerName, createdAt, cone, scoops}
         };
     },
-    fulfillOrder(id: number): FulfillOrderAction {
-        return {
-            type: types.FULFILL_ORDER,
-            payload: id
+    fulfillOrder(id: number): AppThunk {
+        return (dispatch, getState) => {
+            const { orders } = getState();
+            const order = orders[id];
+
+            if (order && order.status === 'pending') {
+                // Dispatch the action to mark the order as fulfilled
+                dispatch({
+                    type: types.FULFILL_ORDER,
+                    payload: id
+                } as FulfillOrderAction); // Cast to FulfillOrderAction
+
+                // After fulfilling, dispatch actions to deduct stock for each item
+                Object.entries(order.scoops).forEach(([flavor, quantity]) => {
+                    if (quantity > 0) { // Ensure quantity is positive
+                        dispatch(freezerActions.deductStock(flavor, quantity));
+                    }
+                });
+            }
+            // Optionally: handle cases where order is not found or not pending
+            // For example, dispatch an error action or log a warning.
         };
     },
     payForOrder(id: number): PayForOrderAction {

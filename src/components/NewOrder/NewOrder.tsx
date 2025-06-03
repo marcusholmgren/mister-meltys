@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 
 import Panel from '../Panel/Panel';
 import {Column, Row} from '../Grid/Grid';
@@ -6,6 +7,7 @@ import ButtonGroup from '../Button/ButtonGroup';
 import Button from '../Button/Button';
 
 import * as FLAVORS from '../../constants/flavors';
+import { getFlavorStock, FreezerState } from '../../ducks/freezer'; // Import the selector and FreezerState
 
 import './NewOrder.css';
 
@@ -24,6 +26,13 @@ type OrderData = NewOrderState; // Changed from interface extends
 
 interface NewOrderProps {
   placeOrder: (order: OrderData) => void;
+  flavorStock: { [flavorName: string]: number }; // Added from mapStateToProps
+}
+
+// Minimal RootState definition for mapStateToProps
+interface RootState {
+  freezer: FreezerState; // Assuming 'freezer' is the key and its value is of type FreezerState
+  // other state slices...
 }
 
 const DEFAULT_STATE: NewOrderState = {
@@ -32,7 +41,8 @@ const DEFAULT_STATE: NewOrderState = {
     cone: false,
 };
 
-class NewOrder extends Component<NewOrderProps, NewOrderState> {
+// Export the plain component for testing and for the container to wrap
+export class NewOrderComponent extends Component<NewOrderProps, NewOrderState> {
     constructor(props: NewOrderProps) {
         super(props);
         this.state = {
@@ -118,7 +128,9 @@ class NewOrder extends Component<NewOrderProps, NewOrderState> {
                             <col width="20%"/>
                         </colgroup>
                         <tbody>
-                        {Object.keys(FLAVORS).map(flavor => (
+                        {Object.keys(FLAVORS)
+                            .filter(flavor => (this.props.flavorStock[flavor] || 0) > 0)
+                            .map(flavor => (
                             <tr key={flavor}>
                                 <td>
                                     <strong>{flavor}</strong>
@@ -145,5 +157,13 @@ class NewOrder extends Component<NewOrderProps, NewOrderState> {
     }
 };
 
-export default NewOrder;
+const mapStateToProps = (state: RootState) => ({
+  flavorStock: getFlavorStock(state.freezer)
+});
+
+// No mapDispatchToProps needed if placeOrder is passed down from a parent container component
+// If placeOrder itself should be dispatched via Redux, that would be a separate change.
+
+// The connected component is the default export
+export default connect(mapStateToProps)(NewOrderComponent);
 

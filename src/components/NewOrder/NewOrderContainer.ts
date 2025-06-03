@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import { Dispatch } from 'redux';
-import NewOrder from './NewOrder';
+import { NewOrderComponent } from './NewOrder'; // Import the named component
 import {actions as ordersActions} from '../../ducks/orders';
 
 // This should ideally be imported from NewOrder.tsx or a shared types file
@@ -22,4 +22,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
     placeOrder: (orderData: OrderData) => dispatch(ordersActions.placeOrder(orderData) as any) // Cast as any for now if placeOrder action type is complex
 });
 
-export default connect(null, mapDispatchToProps)(NewOrder);
+export default connect(null, mapDispatchToProps)(NewOrderComponent); // Connect the named component

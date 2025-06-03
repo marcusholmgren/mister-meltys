@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {reducer, actions, Order, OrdersState, ScoopDetail} from '../../orders'; // Import Order and OrdersState
+import {reducer, actions, Order, OrdersState, ScoopDetail, types} from '../../orders'; // Import types, Order and OrdersState
 import * as FLAVORS from '../../../constants/flavors';
 
 // Default mock values for a complete Order object
@@ -37,7 +37,10 @@ describe('Orders reducer', function () {
                 scoops: defaultScoops
             }
         ];
-        const newState = reducer(currentState, actions.fulfillOrder(0));
+        // The reducer expects a plain action object, not a thunk.
+        // The fulfillOrder thunk dispatches an action like this:
+        const action = { type: types.FULFILL_ORDER, payload: 0 };
+        const newState = reducer(currentState, action);
         expect(newState[0].status).toEqual('fulfilled');
     });
 

@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import FreezerContainer from '../Freezer/FreezerContainer';
-import NewOrderContainer from '../NewOrder/NewOrderContainer';
-import { Column, Row } from '../Grid/Grid';
-import OrderOverviewContainer from '../OrderOverview/OrderOverviewContainer';
-import ColleaguesContainer from '../Colleagues/ColleaguesContainer';
+import FreezerContainer from "../Freezer/FreezerContainer";
+import NewOrderContainer from "../NewOrder/NewOrderContainer";
+import { Column, Row } from "../Grid/Grid";
+import OrderOverviewContainer from "../OrderOverview/OrderOverviewContainer";
+import ColleaguesContainer from "../Colleagues/ColleaguesContainer";
 
-import './App.css';
+import "./App.css";
 
 class App extends Component {
   render() {
     return (
       <main className="app">
-        <img className="logo" src="/logo.svg" alt="Mister Melty's Ice Cream"/>
+        <img
+          className="logo"
+          src="/mister-meltys/logo.svg"
+          alt="Mister Melty's Ice Cream"
+        />
         <Row>
           <Column>
             <FreezerContainer />

@@ -72,4 +72,57 @@ describe('Freezer reducer', function () {
         const newState = reducer(oldState, actions.removeScoop(FLAVORS.VANILLA));
         expect(newState.flavors[FLAVORS.VANILLA]).toEqual(0);
     });
+
+    // Tests for DEDUCT_STOCK action
+    it('should deduct stock for a given flavor', () => {
+        const state: FreezerState = {
+            temperature: -5,
+            flavors: {
+                [FLAVORS.STRAWBERRY]: 10,
+                [FLAVORS.CHOCOLATE]: 15
+            }
+        };
+        const action = actions.deductStock(FLAVORS.STRAWBERRY, 3);
+        const newState = reducer(state, action);
+        expect(newState.flavors[FLAVORS.STRAWBERRY]).toEqual(7);
+        expect(newState.flavors[FLAVORS.CHOCOLATE]).toEqual(15); // Ensure other flavors are untouched
+        expect(newState.temperature).toEqual(-5); // Ensure temperature is untouched
+    });
+
+    it('should not deduct stock below zero', () => {
+        const state: FreezerState = {
+            temperature: -5,
+            flavors: {
+                [FLAVORS.STRAWBERRY]: 2
+            }
+        };
+        const action = actions.deductStock(FLAVORS.STRAWBERRY, 5);
+        const newState = reducer(state, action);
+        expect(newState.flavors[FLAVORS.STRAWBERRY]).toEqual(0);
+    });
+
+    it('should handle deducting stock from a flavor not in state', () => {
+        const state: FreezerState = {
+            temperature: -5,
+            flavors: {
+                [FLAVORS.STRAWBERRY]: 10
+            }
+        };
+        // FLAVORS.VANILLA is not in the state
+        const action = actions.deductStock(FLAVORS.VANILLA, 5);
+        const newState = reducer(state, action);
+        expect(newState.flavors[FLAVORS.VANILLA]).toEqual(0); // Should result in 0, not undefined or NaN
+        expect(newState.flavors[FLAVORS.STRAWBERRY]).toEqual(10); // Ensure other flavors are untouched
+    });
+
+    it('should return current state for an unknown action', () => {
+        const state: FreezerState = {
+            temperature: -5,
+            flavors: { [FLAVORS.STRAWBERRY]: 10 }
+        };
+        const unknownAction = { type: 'UNKNOWN_ACTION' };
+        // Type assertion needed if your reducer's second parameter is strictly FreezerActionTypes
+        const newState = reducer(state, unknownAction as any);
+        expect(newState).toEqual(state);
+    });
 });

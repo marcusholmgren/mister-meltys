@@ -45,3 +45,20 @@ describe('removeScoop()', function () {
         expect(action.payload).toEqual('BANANA');
     });
 });
+
+describe('deductStock()', function () {
+    it('should contain the right action type', function () {
+        const action = actions.deductStock('STRAWBERRY', 1);
+        expect(action.type).toEqual(FREEZER.DEDUCT_STOCK);
+    });
+
+    it('should have the flavor in the action payload', function () {
+        const action = actions.deductStock('STRAWBERRY', 1);
+        expect(action.payload.flavor).toEqual('STRAWBERRY');
+    });
+
+    it('should have the quantity in the action payload', function () {
+        const action = actions.deductStock('STRAWBERRY', 5);
+        expect(action.payload.quantity).toEqual(5);
+    });
+});

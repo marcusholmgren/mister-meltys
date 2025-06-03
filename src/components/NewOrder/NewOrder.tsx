@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import Panel from "../Panel/Panel";
 import { Column, Row } from "../Grid/Grid";
@@ -32,136 +32,126 @@ const DEFAULT_STATE: NewOrderState = {
 };
 
 // Export the plain component for testing and for the container to wrap
-export class NewOrderComponent extends Component<NewOrderProps, NewOrderState> {
-  constructor(props: NewOrderProps) {
-    super(props);
-    this.state = {
-      ...DEFAULT_STATE,
-    };
-  }
+export const NewOrderComponent: React.FC<NewOrderProps> = (props) => {
+  const [customerName, setCustomerName] = useState(DEFAULT_STATE.customerName);
+  const [scoops, setScoops] = useState<ScoopDetail>(DEFAULT_STATE.scoops);
+  const [cone, setCone] = useState(DEFAULT_STATE.cone);
 
-  handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Order data:", this.state);
-    this.props.placeOrder(this.state);
-    this.setState(DEFAULT_STATE);
+    props.placeOrder({ customerName, scoops, cone });
+    setCustomerName(DEFAULT_STATE.customerName);
+    setScoops(DEFAULT_STATE.scoops);
+    setCone(DEFAULT_STATE.cone);
   };
 
-  handleDecreaseFlavor = (flavorName: string) => {
-    if (!this.state.scoops[flavorName]) {
+  const handleDecreaseFlavor = (flavorName: string) => {
+    if (!scoops[flavorName]) {
       return;
     }
 
-    const currentScoops = { ...this.state.scoops };
+    const currentScoops = { ...scoops };
 
     if (currentScoops[flavorName] === 1) {
       delete currentScoops[flavorName];
-      this.setState({
-        scoops: currentScoops,
-      });
+      setScoops(currentScoops);
     } else {
-      this.setState({
-        scoops: {
-          ...this.state.scoops,
-          [flavorName]: currentScoops[flavorName] - 1,
-        },
+      setScoops({
+        ...scoops,
+        [flavorName]: currentScoops[flavorName] - 1,
       });
     }
   };
 
-  handleIncreaseFlavor = (flavorName: string) => {
-    this.setState({
-      scoops: {
-        ...this.state.scoops,
-        [flavorName]: (this.state.scoops[flavorName] || 0) + 1,
-      },
+  const handleIncreaseFlavor = (flavorName: string) => {
+    setScoops({
+      ...scoops,
+      [flavorName]: (scoops[flavorName] || 0) + 1,
     });
   };
 
-  render() {
-    return (
-      <Panel title="New order">
-        <form className="new-order-form" onSubmit={this.handleFormSubmit}>
-          <Row>
-            <Column>
-              <label htmlFor="customer-name">Customer name</label>
-              <input
-                type="text"
-                id="customer-name"
-                name="name"
-                value={this.state.customerName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.setState({ customerName: e.target.value })
-                }
-                autoComplete="off"
+  return (
+    <Panel title="New order">
+      <form className="new-order-form" onSubmit={handleFormSubmit}>
+        <Row>
+          <Column>
+            <label htmlFor="customer-name">Customer name</label>
+            <input
+              type="text"
+              id="customer-name"
+              name="name"
+              value={customerName}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCustomerName(e.target.value)
+              }
+              autoComplete="off"
+            />
+          </Column>
+          <Column>
+            <label>Container</label>
+            <ButtonGroup>
+              <Button
+                label="Cup"
+                priority={!cone ? "primary" : "secondary"}
+                onClick={() => setCone(false)}
               />
-            </Column>
-            <Column>
-              <label>Container</label>
-              <ButtonGroup>
-                <Button
-                  label="Cup"
-                  priority={!this.state.cone ? "primary" : "secondary"}
-                  onClick={() => this.setState({ cone: false })}
-                />
-                <Button
-                  label="Cone"
-                  priority={this.state.cone ? "primary" : "secondary"}
-                  onClick={() => this.setState({ cone: true })}
-                />
-              </ButtonGroup>
-            </Column>
-          </Row>
+              <Button
+                label="Cone"
+                priority={cone ? "primary" : "secondary"}
+                onClick={() => setCone(true)}
+              />
+            </ButtonGroup>
+          </Column>
+        </Row>
 
-          <label>Scoops</label>
-          <table className="new-order-scoops-table">
-            <colgroup>
-              <col width="80%" />
-              <col width="20%" />
-            </colgroup>
-            <tbody>
-              {Object.keys(this.props.flavors || {})
-                .filter((flavor) => (this.props.flavors[flavor] || 0) > 0)
-                .map((flavor) => (
-                  <tr key={flavor}>
-                    <td>
-                      <strong>{flavor}</strong>
-                    </td>
-                    <td>
-                      <ButtonGroup>
-                        <Button
-                          size="small"
-                          label="-"
-                          priority="primary"
-                          onClick={() => this.handleDecreaseFlavor(flavor)}
-                        />
-                        <Button
-                          size="small"
-                          label={(this.state.scoops[flavor] || 0).toString()}
-                          priority="secondary"
-                        />
-                        <Button
-                          size="small"
-                          label="+"
-                          priority="primary"
-                          onClick={() => this.handleIncreaseFlavor(flavor)}
-                        />
-                      </ButtonGroup>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+        <label>Scoops</label>
+        <table className="new-order-scoops-table">
+          <colgroup>
+            <col width="80%" />
+            <col width="20%" />
+          </colgroup>
+          <tbody>
+            {Object.keys(props.flavors || {})
+              .filter((flavor) => (props.flavors[flavor] || 0) > 0)
+              .map((flavor) => (
+                <tr key={flavor}>
+                  <td>
+                    <strong>{flavor}</strong>
+                  </td>
+                  <td>
+                    <ButtonGroup>
+                      <Button
+                        size="small"
+                        label="-"
+                        priority="primary"
+                        onClick={() => handleDecreaseFlavor(flavor)}
+                      />
+                      <Button
+                        size="small"
+                        label={(scoops[flavor] || 0).toString()}
+                        priority="secondary"
+                      />
+                      <Button
+                        size="small"
+                        label="+"
+                        priority="primary"
+                        onClick={() => handleIncreaseFlavor(flavor)}
+                      />
+                    </ButtonGroup>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
 
-          <Button
-            className="new-order-submit-button"
-            label="Add order"
-            type="submit"
-          />
-        </form>
-      </Panel>
-    );
-  }
-}
+        <Button
+          className="new-order-submit-button"
+          label="Add order"
+          type="submit"
+        />
+      </form>
+    </Panel>
+  );
+};
 
 export default NewOrderComponent;

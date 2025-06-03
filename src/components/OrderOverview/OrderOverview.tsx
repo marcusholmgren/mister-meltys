@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import Panel from '../Panel/Panel';
 import OrderTicket from '../OrderTicket/OrderTicket';
@@ -21,15 +21,15 @@ interface OrderOverviewProps {
   cancelOrder: (index: number) => void;
 }
 
-class OrderOverview extends Component<OrderOverviewProps> {
-    handleChangeStatus(index: number, status: string) {
+const OrderOverview: React.FC<OrderOverviewProps> = (props) => {
+    const handleChangeStatus = (index: number, status: string) => {
         // console.log(`Changing status of order at index ${index} to ${status}`);
         switch (status) {
             case 'fulfilled':
-                this.props.fulfillOrder(index);
+                props.fulfillOrder(index);
                 break;
             case 'paid':
-                this.props.payForOrder(index);
+                props.payForOrder(index);
                 break;
             default:
                 console.warn(`Unknown status change: ${status}`);
@@ -37,22 +37,19 @@ class OrderOverview extends Component<OrderOverviewProps> {
         }
     }
 
-
-    render() {
-        return (
-            // Note: The 'horizontalScroll' prop for Panel will cause an error until Panel.tsx is typed correctly.
-            <Panel title="Orders" horizontalScroll>
-                {this.props.orders.map((order: Order, index: number) => (
-                    <OrderTicket
-                        key={order.createdAt}
-                        {...order}
-                        onChangeStatus={(status: string) => this.handleChangeStatus(index, status)}
-                        onCancle={() => this.props.cancelOrder(index)}
-                    />))
-                }
-            </Panel>
-        );
-    }
+    return (
+        // Note: The 'horizontalScroll' prop for Panel will cause an error until Panel.tsx is typed correctly.
+        <Panel title="Orders" horizontalScroll>
+            {props.orders.map((order: Order, index: number) => (
+                <OrderTicket
+                    key={order.createdAt}
+                    {...order}
+                    onChangeStatus={(status: string) => handleChangeStatus(index, status)}
+                    onCancle={() => props.cancelOrder(index)}
+                />))
+            }
+        </Panel>
+    );
 };
 
 export default OrderOverview;

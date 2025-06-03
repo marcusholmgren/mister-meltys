@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import Panel from '../Panel/Panel';
 
@@ -38,47 +38,45 @@ interface ColleaguesProps {
   data?: PersonData[];
 }
 
-class Colleagues extends Component<ColleaguesProps> {
-    render() {
-        let panelContent;
+const Colleagues: React.FC<ColleaguesProps> = ({ loading, error, data }) => {
+    let panelContent;
 
-        if (this.props.loading) {
-            panelContent = (
-                <p>Loading...</p>
-            );
-        } else {
-            if (this.props.error) {
-                panelContent = (
-                    <p>Something went wrong when fetching the data: <code>{this.props.error}</code></p>
-                )
-            } else {
-                panelContent = (
-                    <table className="colleagues-table">
-                        <colgroup>
-                            <col width="0"/>
-                            <col width="100%"/>
-                        </colgroup>
-                        <tbody>
-                        {this.props.data && this.props.data.map((person, index) => (
-                            <Colleague
-                                key={index}
-                                photo={person.picture.thumbnail}
-                                name={person.name.first}
-                                status={person.status}
-                            />
-                        ))}
-
-                        </tbody>
-                    </table>
-                );
-            }
-        }
-        return (
-            <Panel title="Colleagues">
-                {panelContent}
-            </Panel>
+    if (loading) {
+        panelContent = (
+            <p>Loading...</p>
         );
+    } else {
+        if (error) {
+            panelContent = (
+                <p>Something went wrong when fetching the data: <code>{error}</code></p>
+            )
+        } else {
+            panelContent = (
+                <table className="colleagues-table">
+                    <colgroup>
+                        <col width="0"/>
+                        <col width="100%"/>
+                    </colgroup>
+                    <tbody>
+                    {data && data.map((person, index) => (
+                        <Colleague
+                            key={index}
+                            photo={person.picture.thumbnail}
+                            name={person.name.first}
+                            status={person.status}
+                        />
+                    ))}
+
+                    </tbody>
+                </table>
+            );
+        }
     }
-}
+    return (
+        <Panel title="Colleagues">
+            {panelContent}
+        </Panel>
+    );
+};
 
 export default Colleagues;
